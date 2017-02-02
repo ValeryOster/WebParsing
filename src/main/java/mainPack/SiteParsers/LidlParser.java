@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 public class LidlParser implements ParserAll{
-    private String mainUrl = "https://www.lidl.de/de/angebote";
+    private String mainUrl = "https://www.lidl.de/de/";
 
     private Map<String,String> lildArrays = new HashMap<String,String >();
-
+    String offersLink = mainUrl + "angebote";
     public List<String> getOffers() {
 
         getAllOffersSectors(getOfferForNow());
@@ -22,7 +22,7 @@ public class LidlParser implements ParserAll{
         {
             //System.out.println(mEntry+" , "+lildArrays.get(mEntry));
             if(mEntry.contains("Montag")){
-                getAllOffersOfArray(mainUrl+"/"+lildArrays.get(mEntry));
+                getAllOffersOfArray(mainUrl+""+lildArrays.get(mEntry));
                 break;
             }
         }
@@ -34,7 +34,7 @@ public class LidlParser implements ParserAll{
         Document doc;
         String linkOffersNow = "";
         try {
-            doc = Jsoup.connect(mainUrl).get();
+            doc = Jsoup.connect(offersLink).get();
             Elements elements =  doc.select("body > div.shifter-page > div > section.main > div.wrapper.content > div > div > div.space.p-lr > ul");
             if(!elements.isEmpty())
             {
@@ -89,8 +89,17 @@ public class LidlParser implements ParserAll{
         Document doc;
         try {
             doc = Jsoup.connect(link).get();
-            Elements elemens = doc.select("#theme1 > div:nth-child(1)");
-            for (Element e: elemens) System.out.println(e.child(0).text());
+//            Elements elemens = doc.select("body > div.shifter-page > div > section.main > div.wrapper.content > div > article > div > div.r.no-m ");
+            Elements elemens = doc.select(".c-2.m-5");
+
+            if (elemens.size() != 0) {
+                for (Element e: elemens)
+                    System.out.println(e.child(0).text());
+            }else {
+                System.out.println("the path is false");
+                return;
+            }
+
 
         }catch (IOException e) {
             e.printStackTrace();
