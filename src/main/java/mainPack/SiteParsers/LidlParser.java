@@ -87,14 +87,19 @@ public class LidlParser implements ParserAll{
     //get All Offers of the Array
     private void getAllOffersOfArray(String link) {
         Document doc;
+        Element elm;
         try {
             doc = Jsoup.connect(link).get();
 //            Elements elemens = doc.select("body > div.shifter-page > div > section.main > div.wrapper.content > div > article > div > div.r.no-m ");
-            Elements elemens = doc.select(".c-2.m-5");
+            Elements elemens = doc.select(".space.p-r.p-b");
 
             if (elemens.size() != 0) {
                 for (Element e: elemens)
-                    System.out.println(e.child(0).text());
+                    if(!e.child(0).text().contains("online")){
+                        elm = e.child(0).child(0);
+                        System.out.println(e.text());
+                        System.out.println(elm.text());
+                    }
             }else {
                 System.out.println("the path is false");
                 return;
