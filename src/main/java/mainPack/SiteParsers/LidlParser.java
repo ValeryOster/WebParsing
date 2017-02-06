@@ -95,10 +95,12 @@ public class LidlParser implements ParserAll{
 
             if (elemens.size() != 0) {
                 for (Element e: elemens)
-                    if(!e.child(0).text().contains("online")){
-                        elm = e.child(0).child(0);
-                        System.out.println(e.text());
-                        System.out.println(elm.text());
+                    if(!e.child(0).text().contains("online") && e.child(0).text().contains("*"))
+                    {
+                        //fill Map offers key-> Name, value-> price
+                        lildArrays.put(
+                                e.child(0).child(2).child(0).text(),
+                                e.child(0).child(3).text());
                     }
             }else {
                 System.out.println("the path is false");
