@@ -1,11 +1,13 @@
 package mainPack.SiteParsers;
 
+import mainPack.Controller.AngebotElement;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +15,12 @@ import java.util.Map;
 public class LidlParser implements ParserAll{
     private String mainUrl = "https://www.lidl.de/de/";
 
-    private Map<String,String> lildArrays = new HashMap<String,String >();
-    String offersLink = mainUrl + "angebote";
-    public List<String> getOffers() {
+    private List<AngebotElement> lildOffers;
+    private Map<String,String> lildArrays = new HashMap<String, String>();
+    private String offersLink = mainUrl + "angebote";
 
+    public List<AngebotElement> getOffers() {
+        lildOffers = new ArrayList<AngebotElement>();
         getAllOffersSectors(getOfferForNow());
         for (String mEntry : lildArrays.keySet())
         {
@@ -26,7 +30,7 @@ public class LidlParser implements ParserAll{
                 break;
             }
         }
-        return null;
+        return lildOffers;
     }
 
     //Bekommen den Link für alle Angebotten diese Wochen
@@ -74,7 +78,8 @@ public class LidlParser implements ParserAll{
                 {
                     Element elem = e.child(0).tagName("href");
 //                    lildArrays.add();
-                    lildArrays.put(e.text(), elem.child(0).tagName("href").attr("href"));
+                    lildOffers.add(new AngebotElement( e.text()
+                            , elem.child(0).tagName("href").attr("href") ) );
                 }
             }else
                 System.out.println("Array ist leer!");
