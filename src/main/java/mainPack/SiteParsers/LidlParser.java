@@ -24,11 +24,9 @@ public class LidlParser implements ParserAll{
         getAllOffersSectors(getOfferForNow());
         for (String mEntry : lildArrays.keySet())
         {
-            //System.out.println(mEntry+" , "+lildArrays.get(mEntry));
-            if(mEntry.contains("Montag")){
-                getAllOffersOfArray(mainUrl+""+lildArrays.get(mEntry));
-                break;
-            }
+            System.out.println(lildArrays.get(mEntry));
+            getAllOffersOfArray(mainUrl+""+lildArrays.get(mEntry));
+
         }
         return lildOffers;
     }
