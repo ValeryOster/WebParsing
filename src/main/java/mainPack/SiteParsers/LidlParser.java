@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LidlParser implements ParserAll{
-    private String mainUrl = "https://www.lidl.de/de/";
 
+    private String mainUrl = "https://www.lidl.de/de/";
     private List<AngebotElement> lildOffers;
     private Map<String,String> lildArrays = new HashMap<String, String>();
     private String offersLink = mainUrl + "angebote";
@@ -24,14 +24,14 @@ public class LidlParser implements ParserAll{
         getAllOffersSectors(getOfferForNow());
         for (String mEntry : lildArrays.keySet())
         {
-            System.out.println(lildArrays.get(mEntry));
+            //System.out.println(lildArrays.get(mEntry));
             getAllOffersOfArray(mainUrl+""+lildArrays.get(mEntry));
 
         }
         return lildOffers;
     }
 
-    //Bekommen den Link für alle Angebotten diese Wochen
+    //Bekommen den Links für alle Angebotte diese Wochen
     private String getOfferForNow(){
         Document doc;
         String linkOffersNow = "";
@@ -46,11 +46,14 @@ public class LidlParser implements ParserAll{
                     List<Element> list = e.children();
                     for(Element el: list){
                         if(el.text().contains("diese Woche"))
+                        {
                             linkOffersNow = mainUrl + el.child(0).tagName("href").attr("href");
+                        }
+
                     }
                 }
             }else
-                System.out.println("Array ist leer!");
+                System.out.println("Array Element 'Diese Woche' ist leer!");
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -76,8 +79,8 @@ public class LidlParser implements ParserAll{
                 {
                     Element elem = e.child(0).tagName("href");
 //                    lildArrays.add();
-                    lildOffers.add(new AngebotElement( e.text()
-                            , elem.child(0).tagName("href").attr("href") ) );
+                    lildArrays.put( e.text()
+                            , elem.child(0).tagName("href").attr("href")  );
                 }
             }else
                 System.out.println("Array ist leer!");
@@ -98,19 +101,24 @@ public class LidlParser implements ParserAll{
 
             if (elemens.size() != 0) {
                 for (Element e: elemens)
-                    if(!e.child(0).text().contains("online") && e.child(0).text().contains("*"))
+                    if(e.child(0).text().contains("Filiale") && e.child(0).text().contains("*"))
                     {
-                        //fill Map offers key-> Name, value-> price
-                        lildArrays.put(
-                                e.child(0).child(2).child(0).text(),
-                                e.child(0).child(3).text());
+                        try {
+
+                            lildOffers.add(new AngebotElement(
+                                    e.child(0).child(2).child(0).text(),
+                                    e.child(0).child(3).text()));
+                        } catch (IndexOutOfBoundsException e1) {
+                            System.out.println(link);
+                            lildOffers.add(new AngebotElement( e.child(0).child(3).child(0).text(),
+                                                            e.child(0).child(4).child(0).text() ) );
+
+                        }
                     }
             }else {
                 System.out.println("the path is false");
                 return;
             }
-
-
         }catch (IOException e) {
             e.printStackTrace();
         }
