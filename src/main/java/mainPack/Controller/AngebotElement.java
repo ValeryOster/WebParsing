@@ -3,24 +3,36 @@ package mainPack.Controller;
 
 public class AngebotElement {
     private String offersName;
+    private String offersPrice;
     private String offersLink;
+
     private String offersImageLink;
 
     public AngebotElement() {
     }
 
-    public AngebotElement(String offersName, String offersLink) {
+    public AngebotElement(String offersName, String offersPrice, String offersLink) {
 
         this.offersName = offersName;
+        this.offersPrice = offersPrice;
         this.offersLink = offersLink;
     }
-    public AngebotElement(String offersName, String offersLink, String offersImageLink) {
+
+    public AngebotElement(String offersName, String offersPrice, String offersLink, String offersImageLink) {
 
         this.offersName = offersName;
+        this.offersPrice = offersPrice;
         this.offersLink = offersLink;
         this.offersImageLink = offersImageLink;
     }
 
+    public String getOffersPrice() {
+        return offersPrice;
+    }
+
+    public void setOffersPrice(String offersPrice) {
+        this.offersPrice = offersPrice;
+    }
 
     public String getOffersName() {
         return offersName;

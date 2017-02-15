@@ -107,11 +107,13 @@ public class LidlParser implements ParserAll{
 
                             lildOffers.add(new AngebotElement(
                                     e.child(0).child(2).child(0).text(),
-                                    e.child(0).child(3).text()));
+                                    e.child(0).child(3).text(),
+                                    link));
                         } catch (IndexOutOfBoundsException e1) {
-                            System.out.println(link);
+                            ///System.out.println(link);
                             lildOffers.add(new AngebotElement( e.child(0).child(3).child(0).text(),
-                                                            e.child(0).child(4).child(0).text() ) );
+                                                            e.child(0).child(4).child(0).text() ,
+                                                            link ) );
 
                         }
                     }
