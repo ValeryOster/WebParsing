@@ -11,15 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by voster on 09.02.2017.
- */
 public class PennyParser implements ParserAll {
     private List <String> urlArray ;
-    private List<AngebotElement> pennyOffers;
+    private List<AngebotElement> pennyOffers = new ArrayList<>();
 
     public PennyParser() {
-        this.urlArray = new ArrayList<String>();
+        this.urlArray = new ArrayList<>();
         urlArray.add("http://www.penny.de/angebote/aktuell//liste/Ab-Montag/");
         urlArray.add("http://www.penny.de/angebote/aktuell//liste/Ab-Donnerstag/");
         urlArray.add("http://www.penny.de/angebote/aktuell//liste/Ab-Freitag/");
@@ -29,42 +26,49 @@ public class PennyParser implements ParserAll {
 
     public List<AngebotElement> getOffers() {
 
-        for(String url: urlArray) getAllOffersOfArray(url);
+        for(String url: urlArray){
+                getAllOffersOfArray(url);
+        }
 
         return pennyOffers;
     }
+
     //get All Offers of the Array
     private void getAllOffersOfArray(String link) {
         Document doc;
-        Element elm;
         try {
             doc = Jsoup.connect(link).get();
-            System.out.println(link);
-            Elements elemens = doc.select("div.penny-themenwelt-product.pny_angebot");
 
-            int agbnummer = 0;
-            if (elemens.size() != 0) {
-                for (Element e : elemens){
-                    try {
-//                        System.out.println("Angebot Nr: " + (++agbnummer));
-//                        System.out.println(e.child(1).text());
-//                        System.out.println(e.child(0).text());
 
-                        pennyOffers.add(new AngebotElement(
-                                e.child(0).text(),
-                                e.child(1).text(),
-                                link));
-                    } catch (IndexOutOfBoundsException e1) {
-                        System.out.println(link);
-                    } catch (NullPointerException e2) {
-                        System.out.println("NullPointerExeption Hier ==> " + link);
-                        System.out.println("NullPointerExeption Hier ==> " + e.text());
+            if (doc.select("div.penny-themenwelt-product.pny_angebot").size() != 0) {
 
-                    }
-                }
+                writeElementsInArray(link,doc.select("div.penny-themenwelt-product.pny_angebot"));
+
+            }else if (doc.select("div.penny-themenwelt-product.pny_nonfood").size() != 0){
+                System.out.println(link);
+                writeElementsInArray(link,doc.select("div.penny-themenwelt-product.pny_nonfood"));
             }
         }catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void writeElementsInArray(String url, Elements elemens) {
+
+
+        for (Element e : elemens){
+            try {
+                pennyOffers.add(new AngebotElement(
+                        e.child(0).text(),
+                        e.child(1).text(),
+                        url));
+            } catch (IndexOutOfBoundsException e1) {
+                System.out.println(url);
+            } catch (NullPointerException e2) {
+                System.out.println("NullPointerExeption Hier ==> " + url);
+                System.out.println("NullPointerExeption Hier ==> " + e.text());
+
+            }
         }
     }
 }

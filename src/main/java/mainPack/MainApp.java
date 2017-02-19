@@ -14,13 +14,14 @@ public class MainApp {
         new MainApp();
     }
 
-    private List<AngebotElement> lidlElements = new ArrayList<AngebotElement>();
-    private List<AngebotElement> pennyElements = new ArrayList<AngebotElement>();
+    private List<AngebotElement> lidlElements = new ArrayList<>();
+    private List<AngebotElement> pennyElements = new ArrayList<>();
 
     public MainApp() {
 
         PennyParser pennyParser = new PennyParser();
         pennyElements = pennyParser.getOffers();
+        System.out.println("In List");
         String link = "";
         for (AngebotElement element : pennyElements) {
             if (!link.equals(element.getOffersLink())) {
