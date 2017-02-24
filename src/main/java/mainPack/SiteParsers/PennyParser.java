@@ -61,7 +61,11 @@ public class PennyParser implements ParserAll {
                 pennyOffers.add(new AngebotElement(
                         e.child(0).text(),
                         e.child(1).text(),
-                        url));
+                        url,
+                        e.child(0).getElementsByTag("img")
+                        .first().absUrl("data-src-retina")
+                    )
+                );
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println(url);
             } catch (NullPointerException e2) {
