@@ -23,13 +23,13 @@ public class MainApp {
         pennyElements = pennyParser.getOffers();
         System.out.println("In List");
         String link = "";
-        for (AngebotElement element : pennyElements) {
-            if (!link.equals(element.getOffersLink())) {
-                link = element.getOffersLink();
-                System.out.println(link);
-            }
-            System.out.println(element.getOffersName() + " => " + element.getOffersPrice());
-        }
+//        for (AngebotElement element : pennyElements) {
+//            if (!link.equals(element.getOffersLink())) {
+//                link = element.getOffersLink();
+//                System.out.println(link);
+//            }
+//            System.out.println(element.getOffersName() + " => " + element.getOffersImageLink());
+//        }
 
 
     }

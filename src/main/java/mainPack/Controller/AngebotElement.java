@@ -1,20 +1,37 @@
 package mainPack.Controller;
 
 
+import java.util.Date;
+
 public class AngebotElement {
     private String offersName;
     private String offersPrice;
     private String offersLink;
-
     private String offersImageLink;
+    private String offersDialer;
+    private String offersManufacturer;
+    private String offersDate;
 
     public AngebotElement() {
+    }
+
+    public AngebotElement(String offersName, String offersPrice, String offersLink,
+                          String offersImageLink, String offersDate, String offersDialer,
+                          String offersManufacturer) {
+        this.offersName = offersName;
+        this.offersPrice = offersPrice;
+        this.offersLink = offersLink;
+        this.offersImageLink = offersImageLink;
+        this.offersDate = offersDate;
+        this.offersDialer = offersDialer;
+        this.offersManufacturer = offersManufacturer;
     }
 
     public AngebotElement(String offersName, String offersPrice, String offersLink) {
 
         this.offersName = offersName;
         this.offersPrice = offersPrice;
+
         this.offersLink = offersLink;
     }
 
@@ -24,6 +41,30 @@ public class AngebotElement {
         this.offersPrice = offersPrice;
         this.offersLink = offersLink;
         this.offersImageLink = offersImageLink;
+    }
+
+    public String getOffersDate() {
+        return offersDate;
+    }
+
+    public void setOffersDate(String offersDate) {
+        this.offersDate = offersDate;
+    }
+
+    public String getOffersDialer() {
+        return offersDialer;
+    }
+
+    public void setOffersDialer(String offersDialer) {
+        this.offersDialer = offersDialer;
+    }
+
+    public String getOffersManufacturer() {
+        return offersManufacturer;
+    }
+
+    public void setOffersManufacturer(String offersManufacturer) {
+        this.offersManufacturer = offersManufacturer;
     }
 
     public String getOffersPrice() {

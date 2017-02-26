@@ -7,9 +7,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PennyParser implements ParserAll {
     private List <String> urlArray ;
@@ -58,14 +59,21 @@ public class PennyParser implements ParserAll {
 
         for (Element e : elemens){
             try {
+                String[] hersteller = e.child(1).text().split(" ",2);
+                LocalDate date = LocalDate.now();
+                System.out.println(hersteller[0]);
+                System.out.println(hersteller[1]);
                 pennyOffers.add(new AngebotElement(
                         e.child(0).text(),
                         e.child(1).text(),
                         url,
                         e.child(0).getElementsByTag("img")
-                        .first().absUrl("data-src-retina")
-                    )
-                );
+                            .first().absUrl("data-src-retina"),
+                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        "Penny Markt",
+                        hersteller[0]
+
+                ));
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println(url);
             } catch (NullPointerException e2) {
