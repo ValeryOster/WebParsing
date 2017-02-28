@@ -118,4 +118,18 @@ public class AngebotElement {
     public void setOffersProperties(String offersProperties) {
         this.offersProperties = offersProperties;
     }
+
+    @Override
+    public String toString() {
+        return "AngebotElement{" +
+                "offersName='" + offersName + '\'' +
+                ", offersPrice='" + offersPrice + '\'' +
+                ", offersLink='" + offersLink + '\'' +
+                ", offersImageLink='" + offersImageLink + '\'' +
+                ", offersDialer='" + offersDialer + '\'' +
+                ", offersManufacturer='" + offersManufacturer + '\'' +
+                ", offersDate='" + offersDate + '\'' +
+                ", offersProperties='" + offersProperties + '\'' +
+                '}';
+    }
 }

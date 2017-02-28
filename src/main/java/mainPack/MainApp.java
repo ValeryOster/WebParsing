@@ -22,15 +22,12 @@ public class MainApp {
 //        NettoParser nettoParser = new NettoParser();
 //        nettoElements = nettoParser.getOffers();
         PennyParser pennyParser = new PennyParser();
-        pennyParser.getOffers();
+        pennyElements = pennyParser.getOffers();
         String link = "";
-//        for (AngebotElement element : pennyElements) {
-//            if (!link.equals(element.getOffersLink())) {
-//                link = element.getOffersLink();
-//                System.out.println(link);
-//            }
-//            System.out.println(element.getOffersName() + " => " + element.getOffersManufacturer());
-//        }
+        int i = 1;
+        for (AngebotElement element : pennyElements) {
+            System.out.println( i++ + " " + element.toString() );
+        }
 
 
     }

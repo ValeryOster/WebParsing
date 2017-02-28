@@ -2,6 +2,7 @@ package mainPack.SiteParsers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,25 +59,24 @@ public class PennyParser implements ParserAll {
         for (Element e : elemens){
             try {
                 String[] hersteller = e.child(1).child(0).ownText().split(" ",2);
-                System.out.println(hersteller[0]);
-                System.out.println(hersteller[1]);
+
                 if(hersteller[1].contains("*")) {
                     hersteller[1] = hersteller[1].replace("*", "");
-                    System.out.println(hersteller[1]);
                 }
+//                System.out.println(e.child(1).child(0).child(0).ownText());
 
                 LocalDate date = LocalDate.now();
-//                pennyOffers.add(new AngebotElement(
-//                        hersteller[1],
-//                        e.child(0).text(),
-//                        url,
-//                        e.child(0).getElementsByTag("img")
-//                            .first().absUrl("data-src-retina"),
-//                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-//                        "Penny Markt",
-//                        hersteller[0],
-//
-//                ));
+                pennyOffers.add(new AngebotElement(
+                        hersteller[1],
+                        e.child(0).text(),
+                        url,
+                        e.child(0).getElementsByTag("img")
+                            .first().absUrl("data-src-retina"),
+                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        "Penny Markt",
+                        hersteller[0],
+                        e.child(1).child(0).child(0).ownText()
+                ));
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println("IndexOutOfBoundsException Hier ==> " + url);
                 System.out.println("IndexOutOfBoundsException Hier ==> " + e.text());
