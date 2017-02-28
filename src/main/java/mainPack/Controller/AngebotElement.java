@@ -1,8 +1,6 @@
 package mainPack.Controller;
 
 
-import java.util.Date;
-
 public class AngebotElement {
     private String offersName;
     private String offersPrice;
@@ -11,6 +9,7 @@ public class AngebotElement {
     private String offersDialer;
     private String offersManufacturer;
     private String offersDate;
+    private String offersProperties;
 
     public AngebotElement() {
     }
@@ -25,6 +24,7 @@ public class AngebotElement {
         this.offersDate = offersDate;
         this.offersDialer = offersDialer;
         this.offersManufacturer = offersManufacturer;
+
     }
 
     public AngebotElement(String offersName, String offersPrice, String offersLink) {
@@ -41,6 +41,18 @@ public class AngebotElement {
         this.offersPrice = offersPrice;
         this.offersLink = offersLink;
         this.offersImageLink = offersImageLink;
+    }
+
+    public AngebotElement(String offersName, String offersPrice, String offersLink, String offersImageLink,
+                          String offersDialer, String offersManufacturer, String offersDate, String offersProperties) {
+        this.offersName = offersName;
+        this.offersPrice = offersPrice;
+        this.offersLink = offersLink;
+        this.offersImageLink = offersImageLink;
+        this.offersDialer = offersDialer;
+        this.offersManufacturer = offersManufacturer;
+        this.offersDate = offersDate;
+        this.offersProperties = offersProperties;
     }
 
     public String getOffersDate() {
@@ -97,5 +109,13 @@ public class AngebotElement {
 
     public void setOffersImageLink(String offersImageLink) {
         this.offersImageLink = offersImageLink;
+    }
+
+    public String getOffersProperties() {
+        return offersProperties;
+    }
+
+    public void setOffersProperties(String offersProperties) {
+        this.offersProperties = offersProperties;
     }
 }

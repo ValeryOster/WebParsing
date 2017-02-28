@@ -1,24 +1,25 @@
 package mainPack.SiteParsers;
 
-import mainPack.Controller.AngebotElement;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mainPack.Controller.AngebotElement;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class LidlParser implements ParserAll{
 
     private String mainUrl = "https://www.lidl.de/de/";
     private List<AngebotElement> lildOffers;
-    private Map<String,String> lildArrays = new HashMap<String, String>();
+    private Map<String,String> lildArrays = new HashMap<>();
     private String offersLink = mainUrl + "angebote";
 
+    @Override
     public List<AngebotElement> getOffers() {
         lildOffers = new ArrayList<AngebotElement>();
         getAllOffersSectors(getOfferForNow());
@@ -110,7 +111,7 @@ public class LidlParser implements ParserAll{
                                     e.child(0).child(3).text(),
                                     link));
                         } catch (IndexOutOfBoundsException e1) {
-                            ///System.out.println(link);
+                            ///System.out.println(link);A
                             lildOffers.add(new AngebotElement( e.child(0).child(3).child(0).text(),
                                                             e.child(0).child(4).child(0).text() ,
                                                             link ) );

@@ -18,6 +18,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 
     <dependencies>
@@ -27,6 +28,11 @@
             <version>1.10.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.1.0</version>
+        </dependency>
     </dependencies>
 
 

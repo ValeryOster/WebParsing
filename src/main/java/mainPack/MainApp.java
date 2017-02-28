@@ -1,11 +1,10 @@
 package mainPack;
 
-        import mainPack.Controller.AngebotElement;
-        import mainPack.SiteParsers.LidlParser;
-        import mainPack.SiteParsers.PennyParser;
-
         import java.util.ArrayList;
-        import java.util.List;
+import java.util.List;
+
+import mainPack.Controller.AngebotElement;
+        import mainPack.SiteParsers.PennyParser;
 
 
 public class MainApp {
@@ -16,19 +15,21 @@ public class MainApp {
 
     private List<AngebotElement> lidlElements = new ArrayList<>();
     private List<AngebotElement> pennyElements = new ArrayList<>();
+    private List<AngebotElement> nettoElements = new ArrayList<>();
 
     public MainApp() {
 
+//        NettoParser nettoParser = new NettoParser();
+//        nettoElements = nettoParser.getOffers();
         PennyParser pennyParser = new PennyParser();
-        pennyElements = pennyParser.getOffers();
-        System.out.println("In List");
+        pennyParser.getOffers();
         String link = "";
 //        for (AngebotElement element : pennyElements) {
 //            if (!link.equals(element.getOffersLink())) {
 //                link = element.getOffersLink();
 //                System.out.println(link);
 //            }
-//            System.out.println(element.getOffersName() + " => " + element.getOffersImageLink());
+//            System.out.println(element.getOffersName() + " => " + element.getOffersManufacturer());
 //        }
 
 
