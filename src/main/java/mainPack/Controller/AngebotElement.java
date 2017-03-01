@@ -14,19 +14,6 @@ public class AngebotElement {
     public AngebotElement() {
     }
 
-    public AngebotElement(String offersName, String offersPrice, String offersLink,
-                          String offersImageLink, String offersDate, String offersDialer,
-                          String offersManufacturer) {
-        this.offersName = offersName;
-        this.offersPrice = offersPrice;
-        this.offersLink = offersLink;
-        this.offersImageLink = offersImageLink;
-        this.offersDate = offersDate;
-        this.offersDialer = offersDialer;
-        this.offersManufacturer = offersManufacturer;
-
-    }
-
     public AngebotElement(String offersName, String offersPrice, String offersLink) {
 
         this.offersName = offersName;
@@ -41,6 +28,19 @@ public class AngebotElement {
         this.offersPrice = offersPrice;
         this.offersLink = offersLink;
         this.offersImageLink = offersImageLink;
+    }
+
+    public AngebotElement(String offersName, String offersPrice, String offersLink,
+                          String offersImageLink, String offersDate, String offersDialer,
+                          String offersManufacturer) {
+        this.offersName = offersName;
+        this.offersPrice = offersPrice;
+        this.offersLink = offersLink;
+        this.offersImageLink = offersImageLink;
+        this.offersDate = offersDate;
+        this.offersDialer = offersDialer;
+        this.offersManufacturer = offersManufacturer;
+
     }
 
     public AngebotElement(String offersName, String offersPrice, String offersLink, String offersImageLink,

@@ -1,12 +1,13 @@
 package mainPack.SiteParsers;
 
-import mainPack.Controller.AngebotElement;
-
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by voster on 27.01.2017.
- */
+import mainPack.Controller.AngebotElement;
+
+
 public interface ParserAll {
+    List<String> possibleWords = Arrays.asList(
+        "Die", "DIE","Der","Das","Für", "Dr.", "DR.", "MON");
     List<AngebotElement> getOffers();
 }

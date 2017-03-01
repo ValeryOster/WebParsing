@@ -54,28 +54,55 @@ public class PennyParser implements ParserAll {
     }
 
     private void writeElementsInArray(String url, Elements elemens) {
-
+        String offersName = "";
+        String offersPrice = "";
+        String offersManuf = "";
+        String offersProp = "";
+        String[] hersteller ;
 
         for (Element e : elemens){
             try {
-                String[] hersteller = e.child(1).child(0).ownText().split(" ",2);
-
-                if(hersteller[1].contains("*")) {
-                    hersteller[1] = hersteller[1].replace("*", "");
+                System.out.println("------------");
+                //Test if the class exists
+                if(!e.hasClass("penny-themenwelt-product-headline"))
+                {
+                    //Get text in array and split it bevor
+                    hersteller = e.getElementsByClass("penny-themenwelt-product-headline").first().ownText().split(" ",2);
+                    if (hersteller.length == 1) {
+                        if(hersteller[0].contains("*")) {
+                            hersteller[0] = hersteller[0].replace("*", "");
+                        }
+                        offersName = hersteller[0];
+                        offersManuf = hersteller[0];
+                    }
+                    else if (possibleWords.contains(hersteller[0])) {
+                        hersteller = e.child(1).child(0).ownText().split(" ", 3);
+                        if(hersteller[2].contains("*")) {
+                            offersName = hersteller[2].replace("*", "");
+                        }
+                        offersManuf = hersteller[0] + " " + hersteller[1];
+                    } else {
+                        if(hersteller[1].contains("*")) {
+                            offersName = hersteller[1].replace("*", "");
+                        }
+                        offersManuf = hersteller[0];
+                    }
                 }
-//                System.out.println(e.child(1).child(0).child(0).ownText());
-
+                System.out.println(offersName + " -- " + offersManuf);
+                offersPrice = e.child(0).getElementsByClass("textPrice").text();
+                offersProp = e.child(1).child(0).child(0).ownText();
                 LocalDate date = LocalDate.now();
+
                 pennyOffers.add(new AngebotElement(
-                        hersteller[1],
-                        e.child(0).text(),
+                        offersName,
+                        offersPrice,
                         url,
                         e.child(0).getElementsByTag("img")
                             .first().absUrl("data-src-retina"),
-                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         "Penny Markt",
-                        hersteller[0],
-                        e.child(1).child(0).child(0).ownText()
+                        offersManuf,
+                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        offersProp
                 ));
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println("IndexOutOfBoundsException Hier ==> " + url);
