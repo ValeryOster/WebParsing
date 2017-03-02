@@ -72,18 +72,25 @@ public class PennyParser implements ParserAll {
                         if(hersteller[0].contains("*")) {
                             hersteller[0] = hersteller[0].replace("*", "");
                         }
+                        if(hersteller[0].contains(",")) {
+                            hersteller[0] = hersteller[0].replace("*", "");
+                        }
                         offersName = hersteller[0];
                         offersManuf = hersteller[0];
                     }
                     else if (possibleWords.contains(hersteller[0])) {
                         hersteller = e.child(1).child(0).ownText().split(" ", 3);
-                        if(hersteller[2].contains("*")) {
+                        if (hersteller[2].contains("*")) {
                             offersName = hersteller[2].replace("*", "");
+                        } else {
+                            offersName = hersteller[2];
                         }
                         offersManuf = hersteller[0] + " " + hersteller[1];
                     } else {
-                        if(hersteller[1].contains("*")) {
+                        if (hersteller[1].contains("*")) {
                             offersName = hersteller[1].replace("*", "");
+                        } else {
+                            offersName = hersteller[1];
                         }
                         offersManuf = hersteller[0];
                     }

@@ -27,6 +27,7 @@ public class MainApp {
         int i = 1;
         for (AngebotElement element : pennyElements) {
             System.out.println( i++ + " " + element.toString() );
+            System.out.println();
         }
 
 
