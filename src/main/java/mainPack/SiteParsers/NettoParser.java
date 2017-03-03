@@ -60,9 +60,16 @@ public class NettoParser implements ParserAll {
     private void writeElementsInArray(String url, Elements elemens) {
         System.out.println(url);
         int i = 0;
+        String offersName = "";
+        String offersPrice = "";
+        String offersManuf = "";
+        String offersProp = "";
         for (Element e : elemens){
             try {
-                System.out.println(i++ +" -- " + e.text());
+                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_title").text());
+                System.out.println(i++ +" -- " + e.getElementsByClass("price-main").text());
+                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_title").text());
+                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_desc").first().ownText());
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println("IndexOutOfBoundsException Hier ==> " + url);
                 System.out.println("IndexOutOfBoundsException Hier ==> " + e.text());
