@@ -8,6 +8,6 @@ import mainPack.Controller.AngebotElement;
 
 public interface ParserAll {
     List<String> possibleWords = Arrays.asList(
-        "Die", "DIE","Der","Das","Für", "Dr.", "DR.", "MON");
+        "Die", "DIE","Der","Das","Für", "Dr.", "DR.", "MON", "Uncle");
     List<AngebotElement> getOffers();
 }

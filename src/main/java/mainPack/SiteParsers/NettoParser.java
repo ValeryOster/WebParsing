@@ -1,6 +1,8 @@
 package mainPack.SiteParsers;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,21 +15,30 @@ import org.jsoup.select.Elements;
 public class NettoParser implements ParserAll {
     private List <String> urlArray = new ArrayList<>() ;
     private List<AngebotElement> pennyOffers = new ArrayList<>();
+    String mainUrl = "https://www.netto-online.de/index.php/page/set_store/6594/1";
 
     public NettoParser() {
-        urlArray.add("https://www.netto-online.de/13084.ohtm/6594/Drogerie");
-        urlArray.add("https://www.netto-online.de/13078.ohtm/6594/Fisch");
-        urlArray.add("https://www.netto-online.de/13077.ohtm/6594/Fleisch-Wurst");
-        urlArray.add("https://www.netto-online.de/13080.ohtm/6594/Frische");
-        urlArray.add("https://www.netto-online.de/13081.ohtm/6594/Markenstars");
-        urlArray.add("https://www.netto-online.de/13076.ohtm/6594/Obst-Gemuese");
-        urlArray.add("https://www.netto-online.de/13094.ohtm/6594/Samstags-Kracher");
-        urlArray.add("https://www.netto-online.de/13086.ohtm/6594/TV-Stars");
-        urlArray.add("https://www.netto-online.de/-1143.ohtm/6594/TV-Stars");
-        urlArray.add("https://www.netto-online.de/13083.ohtm/6594/Wein-Co.");
-        urlArray.add("https://www.netto-online.de/13012.ohtm/6594/Wochen-Knueller");
-        urlArray.add("https://www.netto-online.de/13087.ohtm/6594/Wochenend-Angebote");
-        urlArray.add("https://www.netto-online.de/13082.ohtm/6594/XXL");
+        getAllArrayUrl();
+    }
+
+    private void getAllArrayUrl() {
+        Document doc;
+        try {
+            doc = Jsoup.connect(mainUrl).get();
+            Elements root = doc.select("div.sub_navi_slide");
+
+            if (root.select("a[href]").size() != 0) {
+               Elements elements = root.select("a[href]");
+                for (Element element : elements) {
+                    urlArray.add( element.attr("href").toString() );
+                }
+
+            }else
+                System.out.println("Problem with Navigation Parsing !!!");
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -36,7 +47,7 @@ public class NettoParser implements ParserAll {
         for (String url : urlArray) {
             getAllOffersOfArray(url);
         }
-        return null;
+        return pennyOffers;
     }
 
     private void getAllOffersOfArray(String url) {
@@ -44,7 +55,6 @@ public class NettoParser implements ParserAll {
         Document doc;
         try {
             doc = Jsoup.connect(url).get();
-
 
             if (doc.select("div.box_article.clean").size() != 0) {
                 writeElementsInArray(url,doc.select("div.box_article.clean"));
@@ -64,12 +74,38 @@ public class NettoParser implements ParserAll {
         String offersPrice = "";
         String offersManuf = "";
         String offersProp = "";
+        String offersImgUrl = "";
         for (Element e : elemens){
             try {
-                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_title").text());
-                System.out.println(i++ +" -- " + e.getElementsByClass("price-main").text());
-                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_title").text());
-                System.out.println(i++ +" -- " + e.getElementsByClass("box_article_desc").first().ownText());
+                //That same in Pennyparser names
+                String[] nameArray = e.getElementsByClass("box_article_title").text().split(" ",2);
+                if (nameArray.length == 1) {
+                    offersManuf = nameArray[0];
+                    offersName = nameArray[0];
+                } else if (possibleWords.contains(nameArray[0])) {
+                    nameArray = e.getElementsByClass("box_article_title").text().split(" ",3);
+                    offersManuf = nameArray[0] + " " + nameArray[1];
+                    offersName = nameArray[2];
+                }else {
+                    offersManuf = nameArray[0];
+                    offersName = nameArray[1];
+                }
+                offersPrice = e.getElementsByClass("price-main").text();
+                offersProp = e.getElementsByClass("box_article_desc").first().ownText();
+                Element as = e.getElementsByClass("box_article_img").first();
+                offersImgUrl =  as.select("img").first().absUrl("src");
+                LocalDate date = LocalDate.now();
+
+                pennyOffers.add(new AngebotElement(
+                        offersName,
+                        offersPrice,
+                        url,
+                        offersImgUrl,
+                        "Netto",
+                        offersManuf,
+                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        offersProp
+                ));
             } catch (IndexOutOfBoundsException e1) {
                 System.out.println("IndexOutOfBoundsException Hier ==> " + url);
                 System.out.println("IndexOutOfBoundsException Hier ==> " + e.text());
@@ -80,4 +116,5 @@ public class NettoParser implements ParserAll {
             }
         }
     }
+
 }
