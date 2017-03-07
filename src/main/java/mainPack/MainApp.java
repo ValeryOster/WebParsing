@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mainPack.Controller.AngebotElement;
-import mainPack.SiteParsers.NettoParser;
+import mainPack.SiteParsers.AldiParser;
 
 
 public class MainApp {
@@ -19,10 +19,9 @@ public class MainApp {
 
     public MainApp() {
 
-        NettoParser nettoParser = new NettoParser();
-        nettoElements = nettoParser.getOffers();
-//        PennyParser pennyParser = new PennyParser();
-//        pennyElements = pennyParser.getOffers();
+        AldiParser aldiParser = new AldiParser();
+        aldiParser.getOffers();
+
 //        String link = "";
 //        int i = 1;
 //        for (AngebotElement element : pennyElements) {

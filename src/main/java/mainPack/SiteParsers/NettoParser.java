@@ -22,23 +22,23 @@ public class NettoParser implements ParserAll {
     }
 
     private void getAllArrayUrl() {
-        Document doc;
-        try {
-            doc = Jsoup.connect(mainUrl).get();
-            Elements root = doc.select("div.sub_navi_slide");
+            Document doc;
+            try {
+                doc = Jsoup.connect(mainUrl).get();
+                Elements root = doc.select("div.sub_navi_slide");
 
-            if (root.select("a[href]").size() != 0) {
-               Elements elements = root.select("a[href]");
-                for (Element element : elements) {
-                    urlArray.add( element.attr("href").toString() );
-                }
+                if (root.select("a[href]").size() != 0) {
+                   Elements elements = root.select("a[href]");
+                    for (Element element : elements) {
+                        urlArray.add( element.attr("href").toString() );
+                    }
 
-            }else
-                System.out.println("Problem with Navigation Parsing !!!");
+                }else
+                    System.out.println("Problem with Navigation Parsing !!!");
 
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     @Override
