@@ -16,6 +16,7 @@ public class MainApp {
     private List<AngebotElement> lidlElements = new ArrayList<>();
     private List<AngebotElement> pennyElements = new ArrayList<>();
     private List<AngebotElement> nettoElements = new ArrayList<>();
+    private List<AngebotElement> aldiElements = new ArrayList<>();
 
     public MainApp() {
 

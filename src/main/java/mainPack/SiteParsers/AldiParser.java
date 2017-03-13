@@ -15,8 +15,17 @@ public class AldiParser implements ParserAll {
     private List<AngebotElement> aldiOffers = new ArrayList<>();
     private String mainUrl = "https://www.aldi-nord.de/";
 
+    //All Urls that not a offers
+    private List<String> zeroUrls = new ArrayList<>();
+
     public AldiParser() {
         getAllArrayUrl();
+        zeroUrls.add(mainUrl + "");
+        zeroUrls.add(mainUrl + "index.html");
+        zeroUrls.add(mainUrl + "unsere_angebote.html");
+        zeroUrls.add(mainUrl + "index.html");
+        zeroUrls.add(mainUrl + "#top");
+        zeroUrls.addAll(urlArray);
     }
 
     private void getAllArrayUrl() {
@@ -31,12 +40,11 @@ public class AldiParser implements ParserAll {
                 for (Element element : elements) {
                     if (zahler != 0)
                     {
-                        urlArray.add( mainUrl+element.attr("href").toString() );
+                        urlArray.add(mainUrl+element.attr("href").toString() );
 
                     }
                     zahler++;
                 }
-                System.out.println(zahler);
             }else
                 System.out.println("Problem with Navigation Parsing !!!");
 
@@ -49,11 +57,34 @@ public class AldiParser implements ParserAll {
     public List<AngebotElement> getOffers() {
 
         for (String url : urlArray) {
-            getAllOffersByUrl(url);
+            collectAllOffersUrl(url);
         }
 
         return aldiOffers;
     }
+
+    //Gathering all urls of offer, to parse it in getAllOffersByUrl()
+    private void collectAllOffersUrl(String url) {
+        Document doc;
+        try {
+            doc = Jsoup.connect(url).get();
+            Elements mainEl = doc.getElementById("content_").select("a");
+
+            for (Element element :
+                    mainEl) {
+                String linkUrl = mainUrl+"" + element.attr("href");
+
+                if (!zeroUrls.contains(linkUrl) && !linkUrl.contains(".php")) {
+                   getAllOffersByUrl(linkUrl);
+                }
+
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void getAllOffersByUrl(String url) {
         Document doc;
@@ -65,46 +96,20 @@ public class AldiParser implements ParserAll {
         String offersImgUrl = "";
         try {
             doc = Jsoup.connect(url).get();
-            Elements elements1 = doc.getElementsByClass("offer");
-            Elements elements2 = doc.getElementsByClass("product-tile");
+            Element mainElement = doc.getElementsByClass("product-content-left").first();
+            offersName = mainElement.getElementsByAttribute("itemprop").first().text();
+            offersPrice = doc.getElementsByClass("price-tag").first().
+                            getElementsByAttribute("itemprop").first().
+                            child(0).child(1).text().replace("*","");
+            offersManuf = mainElement.getElementsByClass("manufacturer").first()
+                            .text().replace("®"," ");
+            offersProp = mainElement.getElementsByClass("richtext").first()
+                    .text().replace("®"," ");
 
-            int i = 1;
-            System.out.println("****************ELEMENTS Offer***************");
-            for (Element element : elements1) {
-
-                //Erste Element ist zerteilt worden, in einem liegt Bild in anderem Info
-                if (element.getElementsByClass("detaillink").first() != null) {
-
-                    offersName = element.getElementsByClass("detaillink").first().text();
-                    offersPrice = element.getElementsByClass("main clearfix").first().
-                                getElementsByTag("strong").first().text().replace("*","");
-
-                }else {
-                    Element el = element.parent().getElementsByClass("offer-1-content").first();
-
-                    offersName = el.getElementsByClass("detaillink").first().text();
-                    offersPrice = el.getElementsByClass("main clearfix").first().
-                            getElementsByTag("strong").first().text().replace("*","");
-                }
-
-                System.out.println(i++ +" ----------------------");
-                System.out.println("Name: " + offersName);
-                System.out.println("Price: " + offersPrice);
-                System.out.println("------------------------");
-            }
-            System.out.println("**************ELEMENTS product-tile Red****************");
-            for (Element element : elements2) {
-                if (element.getElementsByClass("detaillink").first() != null) {
-
-                    offersName = element.getElementsByClass("detaillink").first().text();
-                }else {
-
-                }
-                System.out.println(i++ +" ----------------------");
-                System.out.println(element.text());
-                System.out.println("------------------------");
-            }
-
+            System.out.println("Name: " + offersName);
+            System.out.println("Price: " + offersPrice);
+            System.out.println("Manufactor: " + offersManuf);
+            System.out.println("Properties: " + offersProp);
 
 
 
