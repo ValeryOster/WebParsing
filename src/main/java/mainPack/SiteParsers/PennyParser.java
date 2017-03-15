@@ -14,7 +14,6 @@ import org.jsoup.select.Elements;
 
 public class PennyParser implements ParserAll {
     private List <String> urlArray ;
-    private List<AngebotElement> pennyOffers = new ArrayList<>();
 
     public PennyParser() {
         this.urlArray = new ArrayList<>();
@@ -32,7 +31,7 @@ public class PennyParser implements ParserAll {
                 getAllOffersOfArray(url);
         }
 
-        return pennyOffers;
+        return offers;
     }
 
     //get All Offers of the Array
@@ -100,7 +99,7 @@ public class PennyParser implements ParserAll {
                 offersProp = e.child(1).child(0).child(0).ownText();
                 LocalDate date = LocalDate.now();
 
-                pennyOffers.add(new AngebotElement(
+                offers.add(new AngebotElement(
                         offersName,
                         offersPrice,
                         url,

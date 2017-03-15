@@ -14,8 +14,7 @@ import org.jsoup.select.Elements;
 
 public class NettoParser implements ParserAll {
     private List <String> urlArray = new ArrayList<>() ;
-    private List<AngebotElement> pennyOffers = new ArrayList<>();
-    String mainUrl = "https://www.netto-online.de/index.php/page/set_store/6594/1";
+    private String mainUrl = "https://www.netto-online.de/index.php/page/set_store/6594/1";
 
     public NettoParser() {
         getAllArrayUrl();
@@ -34,7 +33,7 @@ public class NettoParser implements ParserAll {
                     }
 
                 }else
-                    System.out.println("Problem with Navigation Parsing !!!");
+                    System.out.println("**** NettoParser **** Problem with Navigation Parsing !!!");
 
             }catch (IOException e) {
                 e.printStackTrace();
@@ -47,7 +46,7 @@ public class NettoParser implements ParserAll {
         for (String url : urlArray) {
             getAllOffersOfArray(url);
         }
-        return pennyOffers;
+        return offers;
     }
 
     private void getAllOffersOfArray(String url) {
@@ -68,7 +67,6 @@ public class NettoParser implements ParserAll {
     }
 
     private void writeElementsInArray(String url, Elements elemens) {
-        System.out.println(url);
         int i = 0;
         String offersName = "";
         String offersPrice = "";
@@ -96,7 +94,7 @@ public class NettoParser implements ParserAll {
                 offersImgUrl =  as.select("img").first().absUrl("src");
                 LocalDate date = LocalDate.now();
 
-                pennyOffers.add(new AngebotElement(
+                offers.add(new AngebotElement(
                         offersName,
                         offersPrice,
                         url,

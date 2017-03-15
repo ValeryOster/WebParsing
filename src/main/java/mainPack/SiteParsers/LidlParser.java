@@ -1,7 +1,6 @@
 package mainPack.SiteParsers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +14,12 @@ import org.jsoup.select.Elements;
 public class LidlParser implements ParserAll{
 
     private String mainUrl = "https://www.lidl.de/de/";
-    private List<AngebotElement> lildOffers;
+
     private Map<String,String> lildArrays = new HashMap<>();
     private String offersLink = mainUrl + "angebote";
 
     @Override
     public List<AngebotElement> getOffers() {
-        lildOffers = new ArrayList<AngebotElement>();
         getAllOffersSectors(getOfferForNow());
         for (String mEntry : lildArrays.keySet())
         {
@@ -29,7 +27,7 @@ public class LidlParser implements ParserAll{
             getAllOffersOfArray(mainUrl+""+lildArrays.get(mEntry));
 
         }
-        return lildOffers;
+        return offers;
     }
 
     //Bekommen den Links für alle Angebotte diese Wochen
@@ -106,13 +104,13 @@ public class LidlParser implements ParserAll{
                     {
                         try {
 
-                            lildOffers.add(new AngebotElement(
+                            offers.add(new AngebotElement(
                                     e.child(0).child(2).child(0).text(),
                                     e.child(0).child(3).text(),
                                     link));
                         } catch (IndexOutOfBoundsException e1) {
                             ///System.out.println(link);A
-                            lildOffers.add(new AngebotElement( e.child(0).child(3).child(0).text(),
+                            offers.add(new AngebotElement( e.child(0).child(3).child(0).text(),
                                                             e.child(0).child(4).child(0).text() ,
                                                             link ) );
 

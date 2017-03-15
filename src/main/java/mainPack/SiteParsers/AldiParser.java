@@ -1,7 +1,10 @@
 package mainPack.SiteParsers;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import mainPack.Controller.AngebotElement;
@@ -12,7 +15,6 @@ import org.jsoup.select.Elements;
 
 public class AldiParser implements ParserAll {
     private List <String> urlArray = new ArrayList<>() ;
-    private List<AngebotElement> aldiOffers = new ArrayList<>();
     private String mainUrl = "https://www.aldi-nord.de/";
 
     //All Urls that not a offers
@@ -46,7 +48,7 @@ public class AldiParser implements ParserAll {
                     zahler++;
                 }
             }else
-                System.out.println("Problem with Navigation Parsing !!!");
+                System.out.println("**** AldiParser **** Problem with Navigation Parsing !!!");
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -60,12 +62,13 @@ public class AldiParser implements ParserAll {
             collectAllOffersUrl(url);
         }
 
-        return aldiOffers;
+        return offers;
     }
 
     //Gathering all urls of offer, to parse it in getAllOffersByUrl()
     private void collectAllOffersUrl(String url) {
         Document doc;
+        HashSet<String> allOffersUrls = new HashSet<>();
         try {
             doc = Jsoup.connect(url).get();
             Elements mainEl = doc.getElementById("content_").select("a");
@@ -74,8 +77,9 @@ public class AldiParser implements ParserAll {
                     mainEl) {
                 String linkUrl = mainUrl+"" + element.attr("href");
 
-                if (!zeroUrls.contains(linkUrl) && !linkUrl.contains(".php")) {
+                if (!zeroUrls.contains(linkUrl) && !linkUrl.contains(".php") && !allOffersUrls.contains(linkUrl)) {
                    getAllOffersByUrl(linkUrl);
+                   allOffersUrls.add(linkUrl);
                 }
 
             }
@@ -88,7 +92,7 @@ public class AldiParser implements ParserAll {
 
     private void getAllOffersByUrl(String url) {
         Document doc;
-        System.out.println(url);
+
         String offersName = "";
         String offersPrice = "";
         String offersManuf = "";
@@ -104,13 +108,19 @@ public class AldiParser implements ParserAll {
             offersManuf = mainElement.getElementsByClass("manufacturer").first()
                             .text().replace("®"," ");
             offersProp = mainElement.getElementsByClass("richtext").first()
-                    .text().replace("®"," ");
+                    .text().replace("®","");
+            offersImgUrl = doc.getElementsByClass("stage-product").first()
+                            .getElementsByClass("stage-item").first().select("a").first().absUrl("href");
+            LocalDate date = LocalDate.now();
 
-            System.out.println("Name: " + offersName);
-            System.out.println("Price: " + offersPrice);
-            System.out.println("Manufactor: " + offersManuf);
-            System.out.println("Properties: " + offersProp);
-
+            offers.add(new AngebotElement(offersName,
+                                        offersPrice,
+                                        url,
+                                        offersImgUrl,
+                                        "Aldi-Nord",
+                                        offersManuf,
+                                        date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                                        offersProp ));
 
 
         }catch (IOException e) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mainPack.Controller.AngebotElement;
-import mainPack.SiteParsers.AldiParser;
+import mainPack.SiteParsers.*;
 
 
 public class MainApp {
@@ -13,23 +13,28 @@ public class MainApp {
         new MainApp();
     }
 
-    private List<AngebotElement> lidlElements = new ArrayList<>();
-    private List<AngebotElement> pennyElements = new ArrayList<>();
-    private List<AngebotElement> nettoElements = new ArrayList<>();
-    private List<AngebotElement> aldiElements = new ArrayList<>();
+    private List<AngebotElement> elements = new ArrayList<>();
 
     public MainApp() {
+        getAllOffers(new AldiParser());
+        getAllOffers(new LidlParser());
+        getAllOffers(new NettoParser());
+        getAllOffers(new PennyParser());
+        getAllOffers(new ReweParser());
 
-        AldiParser aldiParser = new AldiParser();
-        aldiParser.getOffers();
+        int i = 1;
+        String dialer = "";
 
-//        String link = "";
-//        int i = 1;
-//        for (AngebotElement element : pennyElements) {
-//            System.out.println( i++ + " " + element.toString() );
-//            System.out.println();
-//        }
+        for (AngebotElement element : elements) {
+            if (dialer.equals(element.getOffersDialer())){
+                dialer = element.getOffersDialer();
+                System.out.println("***************** - " + dialer + " - ******************");
+            }
+            System.out.println( i++ + " " + element.toString() );
 
-
+        }
+    }
+    private void getAllOffers(ParserAll parser){
+        elements = parser.getOffers();
     }
 }
